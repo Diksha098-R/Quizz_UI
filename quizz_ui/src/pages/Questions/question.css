@@ -1,0 +1,8 @@
+.question-box{
+  background-image: linear-gradient(#d9b3ff, white);
+    width: 30%;
+    display: block;
+    margin: auto;
+    padding-top: 50px;
+    height: calc(100vh - 50px);
+}
