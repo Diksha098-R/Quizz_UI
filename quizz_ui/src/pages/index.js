@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LandingPage from './LandingPage';
 import StartQuiz from './StartQuiz';
 import Question from './Questions';
 import QuestBlock from './Questions/questBlock';
