@@ -1,15 +1,19 @@
 .quiz-ctn{
-  height: 100vh;
+  /* height: 100vh;
   width: 100vw;
-  background-image: linear-gradient(white,  #d9b3ff);
+  background-image: linear-gradient(white,  #d9b3ff); */
+  /* height: inherit; */
+  /* height: 100%;
+  background-image: linear-gradient(white,  #d9b3ff); */
   
   .quiz-box{
-    background-image: linear-gradient(white,  #d9b3ff);
+    /* background-image: linear-gradient(white,  #d9b3ff); */
+    background-color: transparent;
     width: 30%;
     display: block;
     margin: auto;
     padding-top: 50px;
-    height: calc(100vh - 50px);
+    /* height: calc(100vh - 50px); */
     
     .label{
       display: block;

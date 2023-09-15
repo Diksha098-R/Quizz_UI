@@ -1,0 +1,82 @@
+.score-ctn{
+  background-image: linear-gradient(#d9b3ff, white);
+    width: 30%;
+    display: block;
+    margin: auto;
+    padding-top: 50px;
+    /* height: calc(100vh - 50px); */
+  .score-block-box{
+    margin-top: 40px;
+    height: calc(100vh - 100px);
+    background-color: white;
+    border-radius: 40px;
+
+    .header{
+      margin-top: 10px;
+    }
+
+    .body{
+      height: 150px;
+      width: 300px;
+      display: block;
+      margin: auto;
+      
+      .score-meter{
+        border-radius: 300px;
+        width: fit-content;
+        .text-group{
+          color: green;
+        }
+      }
+    }
+    .answers{
+        /* width: 100%; */
+        padding: 0 10px;
+        display: block;
+        
+        .ans{
+          margin-top: 20px;
+          display: flex;
+          padding-left: 10px;
+          align-items: center;
+          height: 40px;
+          border-radius: 6px;
+
+          .dot{
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+          }
+
+          .num{
+            font-family: Source Sans Pro;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+          }
+          .text{
+            font-family: Source Sans Pro;
+            font-size: 14px;
+          }
+
+          .correct-dot{
+            background-color: #44B77B;
+          }
+          .incorrect-dot{
+            background: #FF3B3F;
+          }
+        }
+
+        .correct{
+          background-color: #beeed5;
+        }
+        .incorrect{
+          background: #f8c0c1;
+        }
+      }
+    .start-btn{
+      margin-top: 50px;
+    }
+  }
+}

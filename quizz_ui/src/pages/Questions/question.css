@@ -4,9 +4,9 @@
     display: block;
     margin: auto;
     padding-top: 50px;
-    height: calc(100vh - 50px);
 
-  .quest-block-box-ctn{
+  }
+.quest-block-box-ctn{
     margin-top: 40px;
     .quest-block-box{
       display: block;
@@ -38,6 +38,9 @@
       .question-text{
         font-size: 18px;
         font-weight: bold;
+      }
+      .image{
+        margin: 10px;
       }
       .options{
         display: block;
@@ -79,5 +82,4 @@
       }
     }
   }
-}
 }

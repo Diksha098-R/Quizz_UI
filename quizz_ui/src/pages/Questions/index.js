@@ -1,47 +1,29 @@
 import React, { useState, useEffect, createContext} from "react";
-import Button from 'react-bootstrap/Button';
 import './question.css';
-import { useNavigate } from 'react-router-dom';
 import QuestBlock from "./questBlock";
+import { getAllQuestions } from "../../apis";
 
 export const QuizContext = createContext();
 
-let data = [
-  {
-    id: 1,
-    question: 'Have you watched friends?',
-    options: [
-      'Yes', 'No', "Maybe", 'Dont know'
-    ]
-  },
-  {
-    id: 2,
-    question: 'Have you watched series?',
-    options: [
-      'Yes', 'No', "Maybe", 'Dont know'
-    ]
-  }
-]
 export default function Question() {
-  const [questions, setquestions] = useState(data);
-  const [currentQuest, setcurrentQuest] = useState(0);
-  const navigate = useNavigate();
-
+  const [questions, setquestions] = useState([]);
 
   useEffect(() => {
-    console.log('in navigate');
-    // navigate('/question/0')  
-  }, [questions])
+    getQuizQuestions();
+  }, [])
   
+  const getQuizQuestions = async () => {
+    let results = await getAllQuestions();
+    setquestions(results);
+  }
 
   return (
-    <QuizContext.Provider value={currentQuest}>
+    <QuizContext.Provider value={questions} key={questions}>
     <div className="quiz-ctn">
       <div className="question-box">
         {
             <QuestBlock data={questions} />
         }
-        {/* <div className="start-btn"><Button onClick={() => } variant="primary">Start</Button></div> */}
       </div>
       </div>
       </QuizContext.Provider>

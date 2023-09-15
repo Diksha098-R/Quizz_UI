@@ -1,23 +1,26 @@
 import React, {useState, useEffect} from "react";
 
 export default function CheckboxGroup(props) {
-  const [value, setvalue] = useState(false);
+  const [value, setvalue] = useState(props.checked);
 
   useEffect(() => {
-    props.checkboxClickedAt(value)
-  }, [value])
+    setvalue(props.checked)
+  }, [props.checked])
   
   return (
     <>
       <input
+        key={props.option}
         className="checkbox-input"
         onChange={() => {
-          setvalue(!value)
+          let oldVal = !value;
+          setvalue(oldVal)
+          props.checkboxClickedAt(oldVal)
         }}
         type="checkbox"
         name={props.option}
         value={value}
-        checked={props.checked}
+        checked={value}
 
       />
       {props.option}

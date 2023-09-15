@@ -1,30 +1,55 @@
 import React, { useState, useEffect, useContext} from "react";
-import Button from 'react-bootstrap/Button';
-import './question.css';
 import { useNavigate } from 'react-router-dom';
-import { QuizContext } from ".";
 import CheckboxGroup from "../../components/checkbox";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-
+import { saveQuestionResponse, getScore } from "../../apis";
+import QuizButton from "../../components/button";
+import './question.css';
 
 export default function QuestBlock(props) {
-  const QuizContextUser = useContext(QuizContext)
   const navigate = useNavigate();
 
   const [data, setdata] = useState(props.data)
-  const [questNum, setquestNum] = useState(parseInt(QuizContextUser));
+  const [questNum, setquestNum] = useState(0);
   const [optionChecked, setoptionChecked] = useState([]);
+  const [startTime, setstartTime] = useState(null);
 
   useEffect(() => {
-    
-    console.log('in Q block ', QuizContextUser, data);
+    localStorage.removeItem('quiz')
   }, [])
+
+  useEffect(() => {
+    let time = new Date();
+    setstartTime(time);
+  }, [questNum])
   
-  
-  const onSubmit = () => {
-    console.log('submit btn quiz- setting next num ', optionChecked, ((questNum+1)/data.length)*100);
-    setquestNum(questNum + 1)
+  const onSubmit = async () => {
+    let endTime = new Date();
+    let timeDiff = endTime - startTime;
+
+    //set responses in localstorage
+    let allresponses = JSON.parse(localStorage.getItem('quiz'));
+
+    if (!allresponses) allresponses = {}
+    allresponses[questNum] = {
+      answer: [...optionChecked],
+      time: timeDiff
+    };
+    localStorage.setItem('quiz', JSON.stringify(allresponses));
+    
+    //if its the last question then submit the test
+    if (questNum === data.length - 1) {
+      saveQuestionResponse(questNum);
+      navigate('/score');
+    } else {
+      saveQuestionResponse(questNum);
+    }
+    
+    //go to next question
+    setoptionChecked([]);
+    setquestNum(questNum + 1);
+
   }
 
   return (
@@ -34,22 +59,21 @@ export default function QuestBlock(props) {
           <CircularProgressbar value={`${((questNum + 1) / data.length) * 100}`} minValue={0} maxValue={100} text={`${questNum + 1}/${data.length}`} />
         </div>
         <div className="body">
-          <div key={questNum} className="question-text">{data && data.length && data[questNum].question}</div>
+          <div key={questNum} className="question-text">{data && data.length && data[questNum].question.text}</div>
           {
-            data[questNum].image
-              ? <div div className="image"><img alt="img" src={data[questNum].image} width={180} height={180} /></div>
+            data && data[questNum] && data[questNum].image
+              ? <div div className="image"><img alt="img" src={data && data[questNum] && data[questNum].image} width={180} height={180} /></div>
                 : null
           }
           <div className="options">
             {
-              data[questNum].options.map((option, index) => {
+              data && data[questNum] && data[questNum].options && data[questNum].options.map((option, index) => {
                 return (
-                  <div className="checkbox-item">
+                  <div className="checkbox-item" key={index}>
                   <CheckboxGroup
                     key={index}
                     option={option}
                     checkboxClickedAt={(value) => {
-                      console.log({optionChecked});
                       let oldVal = [...optionChecked]
                       if (value) {
                         oldVal.push(option);
@@ -58,7 +82,6 @@ export default function QuestBlock(props) {
                         oldVal.splice(oldVal.indexOf(option), 1);
                         setoptionChecked(oldVal);
                       }
-                      console.log('option checked ', index);
                     }}
                     checked={optionChecked.includes(option)}
                   />
@@ -67,7 +90,13 @@ export default function QuestBlock(props) {
               })
             }
           </div>
-          <div className="start-btn"><Button onClick={() => onSubmit()} variant="primary">Start</Button></div>
+          <div className="start-btn">
+            <QuizButton
+              content={'Next'}
+              disabled={optionChecked.length === 0 ? true : false}
+              handleClick={() => onSubmit()}
+            />
+          </div>
         </div>
       </div>
     </div>
