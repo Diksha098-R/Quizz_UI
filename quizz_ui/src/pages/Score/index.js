@@ -26,7 +26,8 @@ export default function Score() {
   const calculatePercentage = (data) => {
     let correct = data.correctAnswer.length;
     let incorrect = data.incorrectAnswer.length;
-    let per = (correct / incorrect);
+    let totalQ = correct + incorrect;
+    let per = (correct / totalQ);
     setpercentage(parseFloat(per.toFixed(2)));
   }
 
